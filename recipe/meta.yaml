@@ -25,7 +25,7 @@ requirements:
     - maturin                # [win]
     - python                 # [win]
   host:
-    - cargo-bundle-licenses 0.5.0
+    - cargo-bundle-licenses
     - maturin 0.14.17
     - python
     - pip
