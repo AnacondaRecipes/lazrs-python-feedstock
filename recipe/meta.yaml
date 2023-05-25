@@ -10,18 +10,19 @@ source:
   sha256: 793359e94eb436b34877b4305570774f9b1bba34c4671238512b80b60456d9ce
 
 build:
+  number: 0
+  # maturin isn't available on s390x
+  skip: true  # [py<39 or s390x]
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  number: 0
-  skip: true  # [py<39]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('rust') }}
     - cargo-bundle-licenses
-    - maturin 0.14.17
+    - maturin
   host:
     - maturin 0.14.17
     - python
