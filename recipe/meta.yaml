@@ -12,7 +12,7 @@ source:
 build:
   number: 0
   # maturin isn't available on s390x
-  skip: true  # [py<39 or s390x]
+  skip: true  # [s390x]
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
