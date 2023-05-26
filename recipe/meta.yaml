@@ -21,6 +21,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('rust') }}
+    - maturin                # [win]
   host:
     - cargo-bundle-licenses
     - maturin 0.14.17
