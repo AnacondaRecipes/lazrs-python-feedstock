@@ -10,44 +10,50 @@ source:
   sha256: 793359e94eb436b34877b4305570774f9b1bba34c4671238512b80b60456d9ce
 
 build:
+  number: 0
+  # maturin isn't available on s390x
+  skip: true  # [s390x]
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
-    - {{ PYTHON }} -m pip install . -vv
-  number: 1
-  skip: true  # [py<39]
-  skip: true  # [ppc64le and python_impl == 'pypy']
+    - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - maturin >=0.14,<0.15
     - {{ compiler('c') }}
     - {{ compiler('rust') }}
-    - cargo-bundle-licenses
+    # Without maturin here on win, the build fails with `'ModuleNotFoundError: No module named 'lazrs'`
+    - cargo-bundle-licenses  # [win]
+    - maturin                # [win]
+    - python                 # [win]
   host:
-    - maturin >=0.14,<0.15
+    - cargo-bundle-licenses
+    - maturin 0.14.17
     - python
     - pip
+    - wheel
   run:
     - python
 
 test:
   imports:
     - lazrs
-  commands:
-    - pip check
   requires:
     - pip
+  commands:
+    - pip check
 
 about:
   home: https://pypi.org/project/lazrs/
   summary: Python bindings for laz-rs
+  description: |
+    Python bindings for laz-rs
   license: MIT
+  license_family: MIT
   license_file:
     - THIRDPARTY.yml
     - LICENSE.txt
   dev_url: https://github.com/laz-rs/laz-rs-python
+  doc_url: https://github.com/laz-rs/laz-rs-python
 
 extra:
   recipe-maintainers:
