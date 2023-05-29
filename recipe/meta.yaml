@@ -21,6 +21,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('rust') }}
+    # Without maturin here on win, the build fails with `'ModuleNotFoundError: No module named 'lazrs'`
     - maturin                # [win]
   host:
     - cargo-bundle-licenses
